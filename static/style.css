@@ -1,0 +1,301 @@
+@font-face {
+    font-family: 'VCROSDMonoRUSbyD';
+    src: url('../static/vcrosdmonorusbyd.eot');
+    src: url('../static/vcrosdmonorusbyd.eot?#iefix') format('embedded-opentype'),
+        url('../static/vcrosdmonorusbyd.ttf') format('truetype'),
+        url('../static/vcrosdmonorusbyd.svg#vcrosdmonorusbyd') format('svg');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Deseret&family=Press+Start+2P&display=swap');
+
+body,
+html {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2, #e8edf5, #d1d9e6);
+    font-family: "VCROSDMonoRUSbyD", "Press Start 2P", "Inter", "Segoe UI", sans-serif;
+    color: #4c6970;
+    /*font-size: 2.241vh;*/
+    font-size: 1.075vw;
+}
+
+img {
+    user-select: none;
+}
+
+.dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: #f4f4f4;
+    border: 0.25em solid #4c6970;
+    box-shadow: inset -0.25em 0.25em 0 #eeeeee, inset 0.25em -0.25em 0 #cccbc9;
+    outline: 9999px solid rgba(0, 0, 0, 0.6);
+    padding: 2em 2.5em;
+    display: none;
+    /* FLEX */
+    flex-direction: column;
+    align-items: center;
+    min-width: 20vw;
+    max-width: 90vw;
+    text-align: center;
+    transition: 0.3s ease-out;
+}
+
+.dialog .btn {
+    display: inline-block;
+    padding: 0.6em 1.8em;
+    border: 0.25em solid #4c6970;
+    box-shadow: inset -0.25em 0.25em 0 #eeeeee, inset 0.25em -0.25em 0 #cccbc9;
+    font-size: 1.2em;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.dialog .btn:hover {
+    transform: translateY(-0.1em);
+}
+
+.dialog .btn:active {
+    transform: translateY(0.05em);
+}
+
+.btn-off {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
+    filter: grayscale(0.6);
+    box-shadow: none;
+    background: #a0aab0;
+    transform: none;
+    transition: all 0.15s ease;
+}
+
+.input-off {
+    pointer-events: none;
+    border: none !important;
+    cursor: default;
+}
+
+.dialog .player-input {
+    background: rgba(255, 255, 255, 0.7);
+    font-family: "VCROSDMonoRUSbyD", "Press Start 2P", "Inter", "Segoe UI", sans-serif;
+    border: 0.1em solid #b0b8c0;
+    padding: 0.3em 0.8em;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #2c3e44;
+    transition: all 0.15s ease;
+    outline: none;
+    width: 13em;
+}
+
+.dialog .player-input:focus {
+    border-color: #4a6b70;
+    box-shadow: 0 0 0 0.2em rgba(74, 107, 112, 0.2);
+    background: #ffffff;
+}
+
+.player-list {
+    background-color: #f4f4f4;
+    border: 0.25em solid #4c6970;
+    box-shadow: inset -0.25em 0.25em 0 #eeeeee, inset 0.25em -0.25em 0 #cccbc9;
+    display: inline-block;
+    padding: 1.25em;
+    padding-left: 0.6em;
+    padding-top: 1.25em;
+    padding-bottom: 1.25em;
+    font-size: 1.2em;
+    transition: padding 0.3s ease;
+    position: relative;
+}
+
+.player-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    background: #ffffff;
+    border: 0.15em solid #4c6970;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    transition: 0.1s ease;
+}
+
+.player-cell:last-child {
+    margin-bottom: 0;
+}
+
+.player-cell:hover {
+    background: #e8e8e8;
+    transform: translateY(0.12em);
+}
+
+.icon {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.player-name {
+    color: #4c6970;
+    text-shadow: 0.05em 0.05em 0 rgba(0, 0, 0, 0.1);
+    max-width: 0;
+    opacity: 0;
+    transition:
+        opacity 0.15s ease,
+        max-width 0.7s linear;
+}
+
+.player-list:hover .player-name {
+    max-width: 25em;
+    opacity: 1;
+}
+
+.tr-btn {
+    max-width: 0;
+    opacity: 0;
+    transition:
+        opacity 0.15s ease,
+        max-width 0.1s linear;
+}
+
+.player-list:hover .tr-btn {
+    max-width: 1.5em;
+    opacity: 1;
+}
+
+.arrow {
+    width: 0.75em;
+    height: 0.75em;
+    position: absolute;
+    top: 50%;
+    right: 1%;
+    opacity: 1;
+    transition: opacity 0.07s ease 0.55s;
+}
+
+.player-list:hover .arrow {
+    opacity: 0;
+}
+
+.player-money {
+    color: #4c6970;
+    text-shadow: 0.05em 0.05em 0 rgba(0, 0, 0, 0.1);
+    margin-left: 0.2em;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(13, calc(6 * 1.25em));
+    grid-template-rows: calc(7.5 * 1.25em) calc(9 * 1.25em);
+    gap: 0.3em;
+    left: calc(3 * 1.25em);
+    position: fixed;
+}
+
+.card {
+    width: calc(6 * 1.25em);
+    height: calc(9 * 1.25em);
+    transition: linear 0.1s;
+    position: relative;
+}
+
+.coner-card {
+    width: calc(9 * 1.25em);
+    height: calc(9 * 1.25em);
+}
+
+.board-container {
+    display: flex;
+    position: absolute;
+    top: 0;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.coner-cards-container {
+    position: absolute;
+    display: flex;
+    width: 100%;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.dice {
+    width: calc(1.2 * 2.3em);
+    height: calc(1.2 * 2.3em);
+    top: 1em;
+    position: fixed;
+}
+
+.dice:last-child {
+    margin-left: 3.4em;
+}
+
+.dice-container {
+    display: inline-block;
+    transition: all 0.15s ease;
+    cursor: pointer;
+}
+
+.dice-container:hover .dice {
+    transform: scale(1.05);
+}
+
+.dice-container:active .dice {
+    transform: scale(0.95);
+}
+
+.car-container {
+    display: grid;
+    grid-template-columns: calc(9 * 1.25em) repeat(9, calc(6 * 1.25em)) calc(9 * 1.25em);
+    grid-template-rows: calc(7.5 * 1.25em) calc(9 * 1.25em);
+    gap: 0.3em;
+    position: fixed;
+}
+
+.car {
+    height: 2.2em;
+    width: 4.4em;
+    position: absolute;
+}
+
+.func-btn-container {
+    display: inline-block;
+    right: 6.5em;
+    position: fixed;
+    transition: all 0.15s ease;
+}
+
+#next-turn-btn:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+#next-turn-btn:active {
+    cursor: pointer;
+    transform: scale(0.95);
+}
+
+#menu-btn:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+#menu-btn:active {
+    cursor: pointer;
+    transform: scale(0.95);
+}
+
+/**/

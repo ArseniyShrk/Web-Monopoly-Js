@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>многопользовательская игра</title>
+  <link href="/static/style.css" rel="stylesheet" />
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <div class="dialog" id="start-round-dialog" , style="display: flex;">
+    <img src="/static/sprites/host_ico.png" class="icon">
+    <div class="player-cell">
+      <img src="/static/sprites/red-team-ico.png" class="icon">
+      <input class="player-input name-input" value="null" id="red-d" maxlength="15">
+    </div>
+    <div class="player-cell">
+      <img src="/static/sprites/green-team-ico.png" class="icon">
+      <input class="player-input name-input" value="null" id="green-d" maxlength="15">
+    </div>
+    <div class="player-cell">
+      <img src="/static/sprites/blue-team-ico.png" class="icon">
+      <input class="player-input name-input" value="null" id="blue-d" maxlength="15">
+    </div>
+    <div class="player-cell">
+      <img src="/static/sprites/yellow-team-ico.png" class="icon">
+      <input class="player-input name-input" value="null" id="yellow-d" maxlength="15">
+    </div>
+    <div class="btn" onclick="socket.emit('start');" id="start-round-btn">Начать</div>
+  </div>
+  <div class="dialog" id="watcher-dialog">
+    Раунд уже начался или нет свободного мест в командах, вы можете только наблюдать.
+    <div class="btn" style='margin-top: 2em;' onclick="document.getElementById('watcher-dialog').style.display = null;">
+      Наблюдать</div>
+  </div>
+  <div class="player-list">
+    <img src="/static/sprites/arrow.png" class="arrow">
+    <div class="player-cell">
+      <img src="/static/sprites/red-team-ico.png" class="icon">
+      <div class="player-name" id="red-l">null</div>
+      <div class="spacer"></div>
+      <div class="player-money">1000</div>
+      <img src="/static/sprites/money.png" class="icon">
+      <img src="/static/sprites/trade-button.png" class="icon tr-btn">
+    </div>
+    <div class="player-cell">
+      <img src="/static/sprites/green-team-ico.png" class="icon">
+      <div class="player-name" id="green-l">null</div>
+      <div class="spacer"></div>
+      <div class="player-money">1000</div>
+      <img src="/static/sprites/money.png" class="icon">
+      <img src="/static/sprites/trade-button.png" class="icon tr-btn">
+    </div>
+    <div class="player-cell">
+      <img src="/static/sprites/blue-team-ico.png" class="icon ">
+      <div class="player-name" id="blue-l">null</div>
+      <div class="spacer"></div>
+      <div class="player-money">1000</div>
+      <img src="/static/sprites/money.png" class="icon">
+      <img src="/static/sprites/trade-button.png" class="icon tr-btn">
+    </div>
+    <div class="player-cell">
+      <img src="/static/sprites/yellow-team-ico.png" class="icon">
+      <div class="player-name" id="yellow-l">null</div>
+      <div class="spacer"></div>
+      <div class="player-money">1000</div>
+      <img src="/static/sprites/money.png" class="icon">
+      <img src="/static/sprites/trade-button.png" class="icon tr-btn">
+    </div>
+  </div>
+  <div class="dice-container" onclick="socket.emit('->roll');">
+    <img src="/static/sprites/dice-one.png" class="dice">
+    <img src="/static/sprites/dice-one.png" class="dice">
+  </div>
+  <div class="func-btn-container">
+    <img src="/static/sprites/next-turn-button.png" id="next-turn-btn" class="dice btn-off"
+      onclick="socket.emit('next_turn')">
+    <img src="/static/sprites/menu-button.png" id="menu-btn" class="dice">
+  </div>
+  <div class="board-container">
+    <div class="card-grid"></div>
+    <div class="coner-cards-container">
+      <img src="/static/sprites/coner-card-placeholder.png" class="coner-card">
+      <div class="spacer"></div>
+      <img src="/static/sprites/coner-card-placeholder.png" class="coner-card">
+    </div>
+    <div class="car-container"></div>
+  </div>
+
+</body>
+<script src="/static/client.js"></script>
+
+</html>

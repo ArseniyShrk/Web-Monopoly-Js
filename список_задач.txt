@@ -1,0 +1,7 @@
+    =1. btn - off
+2. watchers loading
+    =3. hover dice
+    =4. no sekecting
+    =5. КАчество
+6. возможно рольнуть только один раз;
+7. анимация движения
