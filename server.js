@@ -65,7 +65,10 @@ io.on("connection", function (socket) {
       game.select_player(socket.id).move(num);
       game.dice_rolled = true
       io.sockets.sockets.forEach((sckt) => {
-        sckt.emit('<-roll', { num: num, player: game.select_player(socket.id).command });
+        sckt.emit('<-roll', {
+          num: num, player: game.select_player(socket.id).command,
+          command: game.select_player(sckt.id).command
+        });
       });
     };
   });

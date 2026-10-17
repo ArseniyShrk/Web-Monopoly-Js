@@ -210,7 +210,10 @@ function init_cars(count) {
   return cars;
 };
 
-function move(target, count, faster = 20) {
+function move(target, count, is_main_object, faster = 20) {
+  const was_on_board = target.link_to !== null &&
+    cards.indexOf(target.link_to) >= 0 &&
+    cards.indexOf(target.link_to) < 13;
   const idx = cards.indexOf(target.link_to);
   link_object(null, target);
   if (idx - count < 1) {
@@ -229,24 +232,54 @@ function move(target, count, faster = 20) {
     setTimeout(() => {
       target.style.transform = 'translate(0, 0)';
       target.style.transition = `linear 0.5s`;
-      setTimeout(() => {
-        for (let i = 10; i > 0; i--) {
-          setTimeout(shift_cards, 150 * i);
-        };
+      if (is_main_object) {
         setTimeout(() => {
-          move(target, count - idx, faster = 0);
-        }, 1650);
-      }, 450);
+          for (let i = 10; i > 0; i--) {
+            setTimeout(shift_cards, 150 * i);
+          };
+          setTimeout(() => {
+            move(target, count - idx, is_main_object, faster = 0);
+          }, 1650);
+        }, 450);
+      } else if (idx - count < 0) {
+        setTimeout(() => {
+          target.style.transform = 'translate(0, -3em)';
+          target.style.transition = 'all 0.155s linear';
+          setTimeout(() => {
+            target.style.transition = 'none';
+            target.style.transform = 'translate(-90em, 0)';
+          }, 155)
+          link_object(cards[idx - count + 40], target);
+        }, 450);
+      };
     }, (idx - 1) * (500 - faster));
 
 
   } else {
     link_object(cards[idx - count], target);
-    target.style.transition = 'none';
-    target.style.transform = `translate(${count * 7.8}em, 0em)`;
-    target.offsetHeight;
-    target.style.transform = 'translate(0,0)';
-    target.style.transition = `linear ${0.5 * count}s`;
+    if (!was_on_board) {
+      const new_index = cards.indexOf(target.link_to);
+      const pos = card_positions[new_index];
+      const targetRow = pos.row;
+      const targetCol = pos.column;
+      const startX = (-11 + targetCol) * 7.8;
+      const startY = (1 - targetRow) * 11.55;
+      target.style.transition = 'none';
+      target.style.transform = `translate(${-startX}em, ${startY}em)`;
+      target.offsetHeight;
+      target.style.transition = 'linear 0.5s';
+      target.style.transform = `translate(${-startX}em, 0)`;
+      setTimeout(() => {
+        target.style.transition = `linear ${0.5 * (11 - targetCol)}s`;
+        target.style.transform = 'translate(0, 0)';
+      }, 500);
+    } else {
+      target.style.transition = 'none';
+      target.style.transform = `translate(${count * 7.8}em, 0em)`;
+      target.offsetHeight;
+      target.style.transform = 'translate(0,0)';
+      target.style.transition = `linear ${0.5 * count}s`;
+    };
   };
 };
 
@@ -309,7 +342,8 @@ socket.on('run_game', function run(data) {
 socket.on('<-roll', (data) => {
   throw_dice(data.num);
   commands = { red: 0, green: 1, blue: 2, yellow: 3 }
-  setTimeout(move, 3000, document.querySelectorAll('.car')[commands[data.player]], data.num);
+  setTimeout(move, 3000, document.querySelectorAll('.car')[commands[data.player]], data.num,
+    data.player == data.command);
   setTimeout(() => {
     document.querySelectorAll('.dice')[0].classList.add('btn-off');
     document.querySelectorAll('.dice')[1].classList.add('btn-off');
